@@ -1,0 +1,5 @@
+cache/
+out/
+coverage/
+lcov.info
+.env
