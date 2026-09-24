@@ -12,15 +12,17 @@ The interface in [`src/IERC7943Fungible.sol`](src/IERC7943Fungible.sol) maps dir
 
 | Requirement | Implementation | Specification reference |
 | --- | --- | --- |
-| ERC-20 base token | `UniversalRWAToken` balances, allowances, transfers, approval, minting | ERC-7943 § Specification: base token requirement |
-| Account eligibility | `canSend`, `canReceive` | ERC-7943 § canSend, canReceive, canTransfer, and getFrozenTokens |
-| Transfer validation | `canTransfer` | Same section; checks both accounts and unfrozen amount |
-| Freeze state | `setFrozenTokens`, `getFrozenTokens` | ERC-7943 § setFrozenTokens |
-| Administrative recovery | `forcedTransfer` | ERC-7943 § forcedTransfer |
-| Standard events | `Frozen`, `ForcedTransfer`, ERC-20 `Transfer` | ERC-7943 interface and forced-transfer requirements |
-| Interface discovery | `supportsInterface` | ERC-7943 § Additional Specifications / ERC-165 |
+| ERC-20 base token | `balanceOf`, `allowance`, `approve`, `transfer`, `transferFrom`, `mint` | [ERC-7943 base-token requirement](https://eips.ethereum.org/EIPS/eip-7943#specification), based on [ERC-20](https://eips.ethereum.org/EIPS/eip-20) |
+| Account eligibility | `canSend`, `canReceive` | [ERC-7943 compliance views](https://eips.ethereum.org/EIPS/eip-7943#cansend-canreceive-cantransfer-and-getfrozentokens) |
+| Transfer validation | `canTransfer` | [ERC-7943 transfer-level checks](https://eips.ethereum.org/EIPS/eip-7943#cansend-canreceive-cantransfer-and-getfrozentokens) |
+| Freeze state | `setFrozenTokens`, `getFrozenTokens`, plus `freeze`/`unfreeze` helpers | [ERC-7943 freeze rules](https://eips.ethereum.org/EIPS/eip-7943#setfrozentokens) |
+| Administrative recovery | `forcedTransfer` | [ERC-7943 forced-transfer rules](https://eips.ethereum.org/EIPS/eip-7943#forcedtransfer) |
+| Standard events | `Frozen`, `ForcedTransfer`, ERC-20 `Transfer` | [ERC-7943 interface/events](https://eips.ethereum.org/EIPS/eip-7943#specification) and [forced-transfer requirements](https://eips.ethereum.org/EIPS/eip-7943#forcedtransfer) |
+| Interface discovery | `supportsInterface` | [ERC-7943 additional specifications](https://eips.ethereum.org/EIPS/eip-7943#additional-specifications) / [ERC-165](https://eips.ethereum.org/EIPS/eip-165) |
 
 The published fungible interface identifier is `0x3edbb4c4`; the test verifies that the contract reports support for it and for ERC-165.
+
+Function-level mapping: `canSend`, `canReceive`, `canTransfer`, and `getFrozenTokens` map to the standard’s compliance-view section; `setFrozenTokens` maps to the freeze section; `forcedTransfer` maps to the enforcement section; `Frozen` and `ForcedTransfer` map to the fungible interface and forced-transfer event requirements; `supportsInterface` maps to the additional-specifications section. `freeze`, `unfreeze`, `setAllowlisted`, `isAllowlisted`, `TransferRejected`, and `AllowlistUpdated` are explicitly scoped course helpers/extensions rather than claimed native ERC-7943 functions/events.
 
 ## Design decisions
 
